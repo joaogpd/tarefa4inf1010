@@ -27,6 +27,7 @@ struct codedict {
     char let; 
 };
 
+
 Node* create_node(int val, char let, Node* pai, Node* right, Node* prox, Node* left) {
     Node* new_node = (Node*)malloc(sizeof(Node));
     if (new_node == NULL) {
@@ -196,7 +197,6 @@ void pq_to_bt(pQ* pq) {
 
         Node* novo = create_node(left->val + right->val, '+', NULL, right, NULL, left);
         insert_pq_node(pq, novo);
-        print_pq(pq);
     }
 }
 
@@ -229,11 +229,12 @@ void print_head(pQ* pq) {
     print_btree(pq->first);
 }
 
-cdDict* create_cddict() {
+cdDict* create_cddict(int i) {
     cdDict* new_cddict = (cdDict*)malloc(sizeof(cdDict));
     if (new_cddict == NULL) 
         exit(-1);
     strcpy(new_cddict->code, "");
+    new_cddict->let = (char)i;
     return new_cddict;
 }
 
@@ -246,6 +247,7 @@ void percurso_btree(cdDict** dict, Node* node, char* code) {
         return;
     }
     char code_aux[8];
+    strcpy(code_aux, "");
     strcpy(code_aux, code);
     strcat(code_aux, "0");
     percurso_btree(dict, node->left, code_aux);
@@ -259,7 +261,7 @@ cdDict** percurso_head(pQ* pq) {
         exit(-1);
     cdDict** new_cddictarray = (cdDict**)malloc(sizeof(cdDict*) * 128);
     for (int i = 0; i < 128; i++)
-        new_cddictarray[i] = create_cddict();
+        new_cddictarray[i] = create_cddict(i);
     char code[8] = "";
     percurso_btree(new_cddictarray, pq->first, code);
     return new_cddictarray;
@@ -268,7 +270,19 @@ cdDict** percurso_head(pQ* pq) {
 void print_cdDict(cdDict** cddict) {
     for (int i = 0; i < 128; i++) {
         if (strcmp("", cddict[i]->code) != 0)
-            printf("%c : %s\n", cddict[i]->let, cddict[i]->code);
+            printf("%c %c: %s\n", cddict[i]->let, (char)i, cddict[i]->code);
+    }
+}
+
+void print_cdDict_one(cdDict** cddict, int i) {
+    if (i < 128 && i >= 0) {
+        printf("%s", cddict[i]->code);
+    }
+}
+
+void accessDict(cdDict** codedict, int i, char* code) {
+    if (i >= 0 && i < 128) {
+        strcpy(code, codedict[i]->code);
     }
 }
 
@@ -277,8 +291,4 @@ void free_cdDict(cdDict** cddict) {
         free(cddict[i]);
     }
     free(cddict);
-}
-
-void access_cdDict(cdDict** cddict, int index, char* code) {
-    strcpy(code, cddict[index]->code);
 }

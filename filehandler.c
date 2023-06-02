@@ -85,16 +85,19 @@ arrayOc* build_arrayOc(char* name, char* mode) {
 
 void print_binary(char* name, cdDict** codedict) {
     FILE* char_arq = open_file(name, "r");
-    FILE* char_bin = open_file("result.bin", "wb");
+    FILE* char_bin = open_file("output.bin", "wb");
     char* code = (char*)malloc(sizeof(char) * 8);
     while (!feof(char_arq)) {
         char arq_char = fgetc(char_arq);
-        int index = (int)arq_char;
-        access_cdDict(codedict, index, code);
-        fwrite(code, sizeof(char), strlen(code), char_bin);
+        if (arq_char != '\n') {
+            accessDict(codedict, (int)arq_char, code);
+            printf("%s", code);
+            fwrite(code, sizeof(char), strlen(code), char_bin);
+        }
     }
+    printf("\n");
     free(code);
-    close_file(char_arq);
     close_file(char_bin);
+    close_file(char_arq);
 }
 
