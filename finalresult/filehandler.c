@@ -83,6 +83,10 @@ arrayOc* build_arrayOc(char* name, char* mode) {
     return occurrences;
 }
 
+/* Imprime no terminal e em um arquivo binário o resultado da codificação
+ * pelo algoritmo de Hufmann. Recebe o nome do arquivo de entrada e um
+ * array de cdDict, que armazenam o código correspondente a cada letra 
+ */
 void print_binary(char* name, cdDict** codedict) {
     FILE* char_arq = open_file(name, "r");
     FILE* char_bin = open_file("output.bin", "wb");
