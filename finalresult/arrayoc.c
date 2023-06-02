@@ -106,10 +106,14 @@ arrayOc* extract_characters(char* string) {
     return head;
 }
 
+/* Obtem o campo length de uma estrutura arrayOc */
 int get_length(arrayOc* oc) {
     return oc->length;
 }
 
+/* Libera a memoria de uma estrutura de arrayOc. Primeiro,
+ * do vetor interno de inteiros. Depois, da estrutura em si 
+ */
 void free_arrayOc(arrayOc* ao) {
     free(ao->occurrences);
     free(ao);
