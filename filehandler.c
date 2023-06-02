@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define FILE_SIZE 97
+#define FILE_SIZE 1000
 
 typedef struct arrayoc arrayOc;
 
